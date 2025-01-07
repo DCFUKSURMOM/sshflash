@@ -25,10 +25,12 @@ show_machinelist () {
   echo "What type of system would you like to flash?"
   echo
   echo "1. LF1000-Didj (Didj with EmeraldBoot)"
-  echo "2. LF1000 (Leapster Explorer)"
-  echo "3. LF2000 (Leapster GS, LeapPad 2, LeapPad Ultra XDI)"
-  echo "4. [EXPERIMENTAL] LF2000 w/ RT+OC Kernel (Leapster GS, LeapPad 2, LeapPad Ultra XDI)"
-  echo "5. LF3000 (LeapPad 3, LeapPad Platinum)"
+  echo "2. LF1000-Leappad1 (Leappad 1)"
+  echo "3. LF1000 (Leapster Explorer)"
+  echo "4. LF2000 (Leapster GS, LeapPad 2, LeapPad Ultra XDI)"
+  echo "5. [EXPERIMENTAL] LF2000 w/ Realtime Kernel (Leapster GS, LeapPad 2, LeapPad Ultra XDI)"
+  echo "6. [EXPERIMENTAL] LF2000 w/ Overclocked Realtime Kernel (Leapster GS, LeapPad 2, LeapPad Ultra XDI)"
+  echo "7. LF3000 (LeapPad 3, LeapPad Platinum)"
 }
 
 boot_surgeon () {
@@ -154,13 +156,15 @@ prefix=$1
 if [ -z "$prefix" ]
 then
   show_machinelist
-  read -p "Enter choice (1 - 5)" choice
+  read -p "Enter choice (1 - 7)" choice
   case $choice in
     1) prefix="lf1000_didj_" ;;
-    2) prefix="lf1000_" ;;
-    3) prefix="lf2000_" ;;
-    4) prefix="lf2000_rt_" ;;
-    5) prefix="lf3000_" ;;
+    2) prefix="lf1000_leappad_" ;;
+    3) prefix="lf1000_" ;;
+    4) prefix="lf2000_" ;;
+    5) prefix="lf2000_rt_" ;;
+    6) prefix="lf2000_oc_" ;;
+    7) prefix="lf3000_" ;;
     *) echo -e "Unknown choice!" && sleep 2
   esac
 fi
