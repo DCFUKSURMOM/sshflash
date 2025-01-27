@@ -7,9 +7,11 @@ SSH="ssh root@169.254.8.1"
 
 show_warning () {
   echo "Surgeon boot utility, modified from the sshflash script to keep it simple"
+  echo "This utility boots the surgeon environment and mounts useful partitions on your device"
+  echo "Unlike the other scripts, this one does not flash anything. It is solely for poking around an installed system without it being booted"
+  echo "This is great if you want to modify files on the stock operating system, but it also works with retroleap"
   echo
   echo "Improper use of surgeon can potentially mess up the OS on your device, requiring a reflash"
-  echo
   echo "This is experimantal and a work in progress, proceed at your own risk."
   echo
   echo "Please power off your leapster, hold the L + R shoulder buttons (LeapsterGS), "
@@ -41,7 +43,6 @@ boot_surgeon () {
   rm surgeon_tmp.cbf
   sleep 15
   echo "Done!"
-  echo "You should now be able to ssh into your device"
 }
 
 part_detect () {
@@ -68,10 +69,12 @@ surgeon_lf1k_2k () {
   ${SSH} -o "StrictHostKeyChecking no" 'test'
   part_detect
   ${SSH} "ubiattach /dev/ubi_ctrl -p $RFS_PARTITION"
-  ${SSH} "mount -t ubifs /dev/ubi0_0 -o rw /roms"
+  ${SSH} "mount -t ubifs /dev/ubi0_0 -o rw /mnt/root"
   ${SSH} "ubiattach /dev/ubi_ctrl -p $BULK_PARTITION"
-  ${SSH} "mount -t ubifs /dev/ubi1_0 -o rw /roms/LF/Bulk"
-  ${SSH} "echo rootfs mounted at /roms, bulk mounted at /roms/LF/Bulk"
+  ${SSH} "mkdir -p /mnt/bulk" #in case of old surgeon image without bulk directory
+  ${SSH} "mount -t ubifs /dev/ubi1_0 -o rw /mnt/bulk"
+  ${SSH} "echo rootfs partition mounted at /mnt/root, bulk/roms partition mounted at /mnt/bulk"
+  echo "SSHing into your device..."
   ${SSH}
 }
 
@@ -83,10 +86,12 @@ surgeon_lf3k () {
   sleep 3
   part_detect
   ${SSH} "ubiattach /dev/ubi_ctrl -p $RFS_PARTITION"
-  ${SSH} "mount -t ubifs /dev/ubi0_0 -o rw /roms"
+  ${SSH} "mount -t ubifs /dev/ubi0_0 -o rw /mnt/root"
   ${SSH} "ubiattach /dev/ubi_ctrl -p $BULK_PARTITION"
-  ${SSH} "mount -t ubifs /dev/ubi1_0 -o rw /roms/LF/Bulk"
-  ${SSH} "echo rootfs mounted at /roms, bulk mounted at /roms/LF/Bulk"
+  ${SSH} "mkdir -p /mnt/bulk" #in case of old surgeon image without bulk directory
+  ${SSH} "mount -t ubifs /dev/ubi1_0 -o rw /mnt/bulk"
+  ${SSH} "echo rootfs partition mounted at /mnt/root, bulk/roms partition mounted at /mnt/bulk"
+  echo "SSHing into your device..."
   ${SSH} 
 }
 
