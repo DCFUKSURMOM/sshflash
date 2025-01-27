@@ -95,7 +95,7 @@ prefix=$1
 if [ -z "$prefix" ]
 then
   show_machinelist
-  read -p "Enter choice (1 - 6)" choice
+  read -p "Enter choice (1 - 7)" choice
   case $choice in
     1) prefix="lf1000_didj_" ;;
     2) prefix="lf1000_leappad_" ;;
